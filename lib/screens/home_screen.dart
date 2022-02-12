@@ -84,6 +84,10 @@ class _HomeScreen extends State<HomeScreen> {
         user['location']["postcode"].toString();
   }
 
+  String _id(dynamic user){
+    return user["id"]["name"];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,8 +177,8 @@ class _HomeScreen extends State<HomeScreen> {
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 8.0, horizontal: 16.0),
-                                  child: Text(
-                                      "Gênero: ${_gender(snapshot.data[index])} \nTelefone: ${_phone(snapshot.data[index])}"
+                                  child: Text("ID: ${_id(snapshot.data[index])}"
+                                      "\nGênero: ${_gender(snapshot.data[index])} \nTelefone: ${_phone(snapshot.data[index])}"
                                           "\nCelular: ${_cell(snapshot.data[index])}"
                                           "\nEndereço: ${_address(snapshot.data[index])}"),
                                 ),
