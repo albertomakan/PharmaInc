@@ -84,8 +84,8 @@ class _HomeScreen extends State<HomeScreen> {
         user['location']["postcode"].toString();
   }
 
-  String _id(dynamic user){
-    return user["id"]["name"];
+  String _id(dynamic user) {
+    return user["id"]["value"].toString();
   }
 
   @override
@@ -107,22 +107,24 @@ class _HomeScreen extends State<HomeScreen> {
               direction: Axis.vertical,
               children: [
                 //adicionar filtro aqui
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-                child: TextField(
-                controller: _searchTextController,
-                decoration: const InputDecoration(
-                  suffixIcon: Icon(
-                    Icons.search,
-                    color: Colors.blue,
-                    size: 50.0,
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+                  child: TextField(
+                    controller: _searchTextController,
+                    decoration: const InputDecoration(
+                      suffixIcon: Icon(
+                        Icons.search,
+                        color: Colors.blue,
+                        size: 50.0,
+                      ),
+                      border: InputBorder.none,
+                      hintText: 'Digite o nome do usuario desejado',
+                    ),
                   ),
-                  border: InputBorder.none,
-                  hintText: 'Digite o nome do usuario desejado',
                 ),
-            ),
-              ),
-                const SizedBox(height: 30,),
+                const SizedBox(
+                  height: 30,
+                ),
                 Expanded(
                   child: ListView.builder(
                       itemCount: snapshot.data.length,
@@ -130,7 +132,8 @@ class _HomeScreen extends State<HomeScreen> {
                         return SingleChildScrollView(
                           scrollDirection: Axis.vertical,
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
+                            padding: const EdgeInsets.only(
+                                left: 16.0, right: 16.0, top: 8.0),
                             child: Card(
                               child: _expansionTileCard(snapshot, index),
                             ),
@@ -153,40 +156,36 @@ class _HomeScreen extends State<HomeScreen> {
     );
   }
 
-  ExpansionTileCard _expansionTileCard(AsyncSnapshot<dynamic> snapshot, int index) {
+  ExpansionTileCard _expansionTileCard(
+      AsyncSnapshot<dynamic> snapshot, int index) {
     return ExpansionTileCard(
-                            baseColor: Colors.cyan[50],
-                            expandedColor: Colors.red[50],
-                            leading: CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(
-                                  snapshot.data[index]['picture']['large']),
-                            ),
-                            // title: Text(_name(snapshot.data[index])),
-                            title: Text("Nome: ${_name(snapshot.data[index])}"),
-                            subtitle: Text(
-                                "Email: ${_email(snapshot.data[index])} "
-                                    "\nData Nascimento: ${_dateUser(snapshot.data[index])}"),
-                            children: <Widget>[
-                              const Divider(
-                                thickness: 1.0,
-                                height: 1.0,
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8.0, horizontal: 16.0),
-                                  child: Text("ID: ${_id(snapshot.data[index])}"
-                                      "\nGênero: ${_gender(snapshot.data[index])} \nTelefone: ${_phone(snapshot.data[index])}"
-                                          "\nCelular: ${_cell(snapshot.data[index])}"
-                                          "\nEndereço: ${_address(snapshot.data[index])}"),
-                                ),
-                              ),
-                            ],
-                          );
+      baseColor: Colors.cyan[50],
+      expandedColor: Colors.red[50],
+      leading: CircleAvatar(
+        radius: 20,
+        backgroundImage: NetworkImage(snapshot.data[index]['picture']['large']),
+      ),
+      // title: Text(_name(snapshot.data[index])),
+      title: Text("Nome: ${_name(snapshot.data[index])}"),
+      subtitle: Text("Email: ${_email(snapshot.data[index])} "
+          "\nData Nascimento: ${_dateUser(snapshot.data[index])}"),
+      children: <Widget>[
+        const Divider(
+          thickness: 1.0,
+          height: 1.0,
+        ),
+        Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+            child: Text("ID: ${_id(snapshot.data[index])}"
+                "\nGênero: ${_gender(snapshot.data[index])} \nTelefone: ${_phone(snapshot.data[index])}"
+                "\nCelular: ${_cell(snapshot.data[index])}"
+                "\nEndereço: ${_address(snapshot.data[index])}"),
+          ),
+        ),
+      ],
+    );
   }
-
 }
-
-
