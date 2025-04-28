@@ -1,9 +1,9 @@
 import 'dart:convert' as cnv;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:intl/intl.dart';
-import 'package:pharma_inc/model_users.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -27,10 +27,12 @@ class _HomeScreen extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    CircularProgressIndicator();
+    const CircularProgressIndicator();
     fetchUser();
     _searchTextController.addListener(() {
-      print(_searchTextController.text);
+      if (kDebugMode) {
+        print(_searchTextController.text);
+      }
       query = _searchTextController.text;
       setState(() {});
     });
@@ -39,7 +41,12 @@ class _HomeScreen extends State<HomeScreen> {
   Future<List<dynamic>> fetchUser() async {
     var url = Uri.parse('https://randomuser.me/api/?results=50');
     http.Response result = await http.get(url);
-    return cnv.jsonDecode(result.body)['results'];
+    if (result.statusCode == 200) {
+      print("Resposta da API: ${result.body}");
+      return cnv.jsonDecode(result.body)['results'];
+    } else {
+      throw Exception('Falha ao carregar dados: ${result.statusCode}');
+    }
   }
 
   String _name(dynamic user) {
